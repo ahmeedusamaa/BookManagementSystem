@@ -1,0 +1,180 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+}
+
+input,
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+
+button {
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+.delete-btn:hover {
+    background-color: #a71d2a;
+}
+
+.edit-btn {
+    background-color: #28a745;
+}
+
+.edit-btn:hover {
+    background-color: #1d8737;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #2270c4;
+    color: white;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Reduce number input size */
+#numBooks {
+    width: 80px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+/* Limit form height and enable scrolling */
+#bookForm {
+    max-height: 300px;
+    /* Prevent excessive scrolling */
+    overflow-y: auto;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* Style each book entry separately */
+.book-entry {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+/* Adjust input sizes */
+#bookForm input {
+    width: 190px;
+    /* Reduce input width */
+    padding: 5px;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+#bookForm input[type="number"] {
+    width: 80px;
+    /* Reduce input width */
+    padding: 5px;
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Make edit inputs smaller */
+table input {
+    width: 130px;
+    /* Adjust for editing */
+    padding: 4px;
+    font-size: 14px;
+    text-align: center;
+}
+
+#booksTable {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* NEW COLUMN WIDTHS - TITLE IS NOW MUCH WIDER */
+#booksTable th:nth-child(1) {
+    width: 25%;
+}
+
+/* Title */
+#booksTable th:nth-child(2) {
+    width: 20%;
+}
+
+/* Price */
+#booksTable th:nth-child(3) {
+    width: 20%;
+}
+
+/* Author Name */
+#booksTable th:nth-child(4) {
+    width: 20%;
+}
+
+/* Email */
+#booksTable th:nth-child(5) {
+    width: 20%;
+}
+
+/* Actions */
+
+/* UPDATED INPUT WIDTHS TO FILL COLUMNS */
+#booksTable input {
+    width: 100%;
+    /* Changed from 95% to fill entire cell */
+    padding: 4px;
+    box-sizing: border-box;
+}
