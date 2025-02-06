@@ -7,11 +7,11 @@ let booksTable = document.getElementById("booksTable");
 let genBtn = document.getElementById("genBtn");
 let text = document.getElementById("text");
 let reEnterBtn = document.getElementById("reEnterBtn");
-//hide the table
+// Hide the table initially
 booksTable.style.display = "none";
 bookForm.style.border = "0px solid black";
 
-//check books in local storage
+// Check books in localStorage
 if (localStorage.getItem("books")) {
   numBooksInput.style.display = "none";
   genBtn.style.display = "none";
@@ -45,7 +45,7 @@ function reEnter() {
   genBtn.style.display = "block";
   text.style.display = "block";
   booksTable.style.display = "none"; // Hide the table
-  reEnterButton.style.display = "none"; // Hide the re-enter button itself
+  bookForm.style.display = "none"; // Hide the form
 }
 
 function generateBookForm() {
@@ -97,6 +97,7 @@ function generateBookForm() {
 
   bookForm.onsubmit = handleSubmit;
 }
+
 function handleSubmit(event) {
   event.preventDefault();
   genBtn.style.display = "none";
@@ -115,11 +116,7 @@ function handleSubmit(event) {
 
     // Validate book name (only letters and spaces)
     if (!bookName.match(/^[a-zA-Z\s]+$/)) {
-      alert(
-        `Book ${
-          i + 1
-        }: Please enter a valid book title (letters and spaces only).`
-      );
+      alert(`Book ${i + 1}: Please enter a valid book title (letters and spaces only).`);
       return;
     }
 
@@ -131,18 +128,12 @@ function handleSubmit(event) {
 
     // Validate author name (only letters and spaces)
     if (!authorName.match(/^[a-zA-Z\s]+$/)) {
-      alert(
-        `Book ${
-          i + 1
-        }: Please enter a valid author name (letters and spaces only).`
-      );
+      alert(`Book ${i + 1}: Please enter a valid author name (letters and spaces only).`);
       return;
     }
 
     // Validate author email (basic email format)
-    if (
-      !authorEmail.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
-    ) {
+    if (!authorEmail.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
       alert(`Book ${i + 1}: Please enter a valid email address.`);
       return;
     }
@@ -173,7 +164,7 @@ function handleSubmit(event) {
       books.push(book);
       localStorage.setItem("books", JSON.stringify(books));
 
-      booksTableBody.innerHTML += `  
+      booksTableBody.innerHTML += `
         <tr>
           <td>${book.title}</td>
           <td>${book.price}</td>
@@ -204,42 +195,73 @@ function editRow(button) {
   let book = books[editingIndex];
 
   row.innerHTML = `
-      <td><input type="text" id="bookName${editingIndex}" value="${book.title}" required></td>
-      <td><input type="number" id="price${editingIndex}" value="${book.price}" required></td>
-      <td><input type="text" id="authorName${editingIndex}" value="${book.author.name}" required></td>
-      <td><input type="email" id="authorEmail${editingIndex}" value="${book.author.email}" required></td>
-      <td>
-          <button onclick="saveEdit(${editingIndex})">Save</button>
-          <button onclick="cancelEdit(${editingIndex}, this)">Cancel</button>
-      </td>
+    <td><input type="text" id="bookName${editingIndex}" value="${book.title}" required></td>
+    <td><input type="number" id="price${editingIndex}" value="${book.price}" required></td>
+    <td><input type="text" id="authorName${editingIndex}" value="${book.author.name}" required></td>
+    <td><input type="email" id="authorEmail${editingIndex}" value="${book.author.email}" required></td>
+    <td>
+        <button onclick="saveEdit(${editingIndex})">Save</button>
+        <button onclick="cancelEdit(${editingIndex}, this)">Cancel</button>
+    </td>
   `;
 
   document.getElementById("submitButton").innerText = "Update";
 }
 
 function saveEdit(index) {
+  let bookName = document.getElementById(`bookName${index}`).value.trim();
+  let price = document.getElementById(`price${index}`).value.trim();
+  let authorName = document.getElementById(`authorName${index}`).value.trim();
+  let authorEmail = document.getElementById(`authorEmail${index}`).value.trim();
+
+  // Validate book name (only letters and spaces)
+  if (!bookName.match(/^[a-zA-Z\s]+$/)) {
+    alert(`Book ${index + 1}: Please enter a valid book title (letters and spaces only).`);
+    return;
+  }
+
+  // Validate price (only numbers)
+  if (!price.match(/^[0-9]+$/)) {
+    alert(`Book ${index + 1}: Please enter a valid price (numbers only).`);
+    return;
+  }
+
+  // Validate author name (only letters and spaces)
+  if (!authorName.match(/^[a-zA-Z\s]+$/)) {
+    alert(`Book ${index + 1}: Please enter a valid author name (letters and spaces only).`);
+    return;
+  }
+
+  // Validate author email (basic email format)
+  if (!authorEmail.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
+    alert(`Book ${index + 1}: Please enter a valid email address.`);
+    return;
+  }
+
+  // Create book object
   let book = {
-    title: document.getElementById(`bookName${index}`).value,
-    price: document.getElementById(`price${index}`).value,
+    title: bookName,
+    price: price,
     author: {
-      name: document.getElementById(`authorName${index}`).value,
-      email: document.getElementById(`authorEmail${index}`).value,
+      name: authorName,
+      email: authorEmail,
     },
   };
 
+  // Update book in the books array
   books[index] = book;
   localStorage.setItem("books", JSON.stringify(books));
 
   let row = booksTableBody.rows[index];
   row.innerHTML = `
-      <td>${book.title}</td>
-      <td>${book.price}</td>
-      <td>${book.author.name}</td>
-      <td>${book.author.email}</td>
-      <td>
-          <button class="edit-btn" onclick="editRow(this)">Edit</button>
-          <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
-      </td>
+    <td>${book.title}</td>
+    <td>${book.price}</td>
+    <td>${book.author.name}</td>
+    <td>${book.author.email}</td>
+    <td>
+        <button class="edit-btn" onclick="editRow(this)">Edit</button>
+        <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
+    </td>
   `;
 
   document.getElementById("submitButton").innerText = "Submit";
@@ -251,14 +273,14 @@ function cancelEdit(index, button) {
 
   let row = button.parentElement.parentElement;
   row.innerHTML = `
-      <td>${book.title}</td>
-      <td>${book.price}</td>
-      <td>${book.author.name}</td>
-      <td>${book.author.email}</td>
-      <td>
-          <button class="edit-btn" onclick="editRow(this)">Edit</button>
-          <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
-      </td>
+    <td>${book.title}</td>
+    <td>${book.price}</td>
+    <td>${book.author.name}</td>
+    <td>${book.author.email}</td>
+    <td>
+        <button class="edit-btn" onclick="editRow(this)">Edit</button>
+        <button class="delete-btn" onclick="deleteRow(this)">Delete</button>
+    </td>
   `;
 
   document.getElementById("submitButton").innerText = "Submit";
