@@ -11,8 +11,6 @@ let reEnterBtn = document.getElementById("reEnterBtn");
 booksTable.style.display = "none";
 bookForm.style.border = "0px solid black";
 
-//hi  hi
-
 //check books in local storage
 if (localStorage.getItem("books")) {
   numBooksInput.style.display = "none";
@@ -36,14 +34,11 @@ if (localStorage.getItem("books")) {
       </tr>
     `;
   });
-}else{
+} else {
   reEnterBtn.style.display = "none";
 }
 
-
-
-
-function reEnter () {
+function reEnter() {
   // Show the numBooks input and the genBtn
   numBooksInput.style.display = "block";
   reEnterBtn.style.display = "none";
@@ -51,8 +46,7 @@ function reEnter () {
   text.style.display = "block";
   booksTable.style.display = "none"; // Hide the table
   reEnterButton.style.display = "none"; // Hide the re-enter button itself
-};
-
+}
 
 function generateBookForm() {
   console.log("generateBookForm");
@@ -62,9 +56,9 @@ function generateBookForm() {
 
   numBooksInput.style.display = "none";
   text.style.display = "none";
-  
+
   bookForm.style.border = "1px solid #ccc";
-  bookForm.style.display = "block"; 
+  bookForm.style.display = "block";
 
   // Get and validate user input
   let numBooks = numBooksInput.value;
@@ -103,7 +97,6 @@ function generateBookForm() {
 
   bookForm.onsubmit = handleSubmit;
 }
-
 function handleSubmit(event) {
   event.preventDefault();
   genBtn.style.display = "none";
@@ -112,37 +105,71 @@ function handleSubmit(event) {
   bookForm.style.display = "none";
   booksTable.style.display = "block";
 
-  if (editingIndex !== -1) {
+  let numBooks = numBooksInput.value;
+
+  for (let i = 0; i < numBooks; i++) {
+    let bookName = document.getElementById(`bookName${i}`).value.trim();
+    let price = document.getElementById(`price${i}`).value.trim();
+    let authorName = document.getElementById(`authorName${i}`).value.trim();
+    let authorEmail = document.getElementById(`authorEmail${i}`).value.trim();
+
+    // Validate book name (only letters and spaces)
+    if (!bookName.match(/^[a-zA-Z\s]+$/)) {
+      alert(
+        `Book ${
+          i + 1
+        }: Please enter a valid book title (letters and spaces only).`
+      );
+      return;
+    }
+
+    // Validate price (only numbers)
+    if (!price.match(/^[0-9]+$/)) {
+      alert(`Book ${i + 1}: Please enter a valid price (numbers only).`);
+      return;
+    }
+
+    // Validate author name (only letters and spaces)
+    if (!authorName.match(/^[a-zA-Z\s]+$/)) {
+      alert(
+        `Book ${
+          i + 1
+        }: Please enter a valid author name (letters and spaces only).`
+      );
+      return;
+    }
+
+    // Validate author email (basic email format)
+    if (
+      !authorEmail.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+    ) {
+      alert(`Book ${i + 1}: Please enter a valid email address.`);
+      return;
+    }
+
+    // Create book object
     let book = {
-      title: document.getElementById(`bookName${editingIndex}`).value,
-      price: document.getElementById(`price${editingIndex}`).value,
+      title: bookName,
+      price: price,
       author: {
-        name: document.getElementById(`authorName${editingIndex}`).value,
-        email: document.getElementById(`authorEmail${editingIndex}`).value,
+        name: authorName,
+        email: authorEmail,
       },
     };
 
-    books[editingIndex] = book;
+    // Update or add book
+    if (editingIndex !== -1) {
+      books[editingIndex] = book;
 
-    let row = booksTableBody.rows[editingIndex];
-    row.cells[0].innerText = book.title;
-    row.cells[1].innerText = book.price;
-    row.cells[2].innerText = book.author.name;
-    row.cells[3].innerText = book.author.email;
+      let row = booksTableBody.rows[editingIndex];
+      row.cells[0].innerText = book.title;
+      row.cells[1].innerText = book.price;
+      row.cells[2].innerText = book.author.name;
+      row.cells[3].innerText = book.author.email;
 
-    editingIndex = -1;
-    document.getElementById("submitButton").innerText = "Submit";
-  } else {
-    for (let i = 0; i < numBooksInput.value; i++) {
-      let book = {
-        title: document.getElementById(`bookName${i}`).value,
-        price: document.getElementById(`price${i}`).value,
-        author: {
-          name: document.getElementById(`authorName${i}`).value,
-          email: document.getElementById(`authorEmail${i}`).value,
-        },
-      };
-
+      editingIndex = -1;
+      document.getElementById("submitButton").innerText = "Submit";
+    } else {
       books.push(book);
       localStorage.setItem("books", JSON.stringify(books));
 
@@ -160,10 +187,7 @@ function handleSubmit(event) {
       `;
     }
   }
-
-
 }
-
 
 function deleteRow(button) {
   let row = button.parentElement.parentElement;
