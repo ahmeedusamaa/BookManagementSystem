@@ -60,7 +60,7 @@ function generateBookForm() {
   bookForm.style.border = "1px solid #ccc";
   bookForm.style.display = "block";
 
-  // Get and validate user input
+
   let numBooks = numBooksInput.value;
 
   if (isNaN(numBooks) || numBooks < 1) {
@@ -68,10 +68,9 @@ function generateBookForm() {
     return;
   }
 
-  // Ensure fresh book entries based on new input
   for (let i = 0; i < numBooks; i++) {
     let bookDiv = document.createElement("div");
-    bookDiv.classList.add("book-entry"); // Add class for styling
+    bookDiv.classList.add("book-entry");
     bookDiv.innerHTML = `
       <label>Title:</label>
       <input type="text" id="bookName${i}" required>
@@ -132,7 +131,7 @@ function handleSubmit(event) {
       return;
     }
 
-    // Validate author email (basic email format)
+    // Validate author email 
     if (!authorEmail.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
       alert(`Book ${i + 1}: Please enter a valid email address.`);
       return;
