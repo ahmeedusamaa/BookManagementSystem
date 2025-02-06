@@ -232,7 +232,7 @@ function saveEdit(index) {
     return;
   }
 
-  // Validate author email (basic email format)
+  // Validate author email 
   if (!authorEmail.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)) {
     alert(`Book ${index + 1}: Please enter a valid email address.`);
     return;
