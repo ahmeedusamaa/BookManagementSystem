@@ -10,7 +10,7 @@ let reEnterBtn = document.getElementById("reEnterBtn");
 // Hide the table initially
 booksTable.style.display = "none";
 bookForm.style.border = "0px solid black";
-
+//
 // Check books in localStorage
 if (localStorage.getItem("books")) {
   numBooksInput.style.display = "none";
